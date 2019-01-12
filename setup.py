@@ -18,23 +18,23 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name='adafruit-circuitpython-dotstar',
+    name='micropython-dotstar',
 
     use_scm_version=True,
     setup_requires=['setuptools_scm'],
 
-    description='CircuitPython library for DotStar LEDs.',
+    description='MicroPython library for DotStar LEDs.',
     long_description=long_description,
     long_description_content_type='text/x-rst',
 
     # The project's main homepage.
-    url='https://github.com/adafruit/Adafruit_CircuitPython_DotStar',
+    url='https://github.com/mattytrentini/micropython-dotstar.git',
 
     # Author details
-    author='Adafruit Industries',
-    author_email='circuitpython@adafruit.com',
+    author='Matt Trentini',
+    author_email='matt.trentini@gmail.com',
 
-    install_requires=['Adafruit-Blinka', 'adafruit-circuitpython-busdevice'],
+    install_requires=[],
 
     # Choose your license
     license='MIT',
@@ -52,9 +52,9 @@ setup(
     ],
 
     # What does your project relate to?
-    keywords='adafruit dotstar leds rgb spi addressable hardware micropython circuitpython',
+    keywords='dotstar leds rgb spi addressable hardware micropython circuitpython',
 
     # You can just specify the packages manually here if your project is
     # simple. Or you can use find_packages().
-    py_modules=['adafruit_dotstar'],
+    py_modules=['micropython_dotstar'],
 )

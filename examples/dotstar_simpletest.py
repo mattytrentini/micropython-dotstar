@@ -1,17 +1,12 @@
 import time
 import random
-import board
-import adafruit_dotstar as dotstar
+import micropython_dotstar as dotstar
 
-# On-board DotStar for boards including Gemma, Trinket, and ItsyBitsy
-dots = dotstar.DotStar(board.APA102_SCK, board.APA102_MOSI, 1, brightness=0.2)
+# On-board DotStar for the TinyPICO
+dots = dotstar.DotStar(spi=SPI(sck=Pin(12), mosi=Pin(13), miso=Pin(18)), 1, brightness=0.2)
 
-# Using a DotStar Digital LED Strip with 30 LEDs connected to hardware SPI
-# dots = dotstar.DotStar(board.SCK, board.MOSI, 30, brightness=0.2)
-
-# Using a DotStar Digital LED Strip with 30 LEDs connected to digital pins
-# dots = dotstar.DotStar(board.D6, board.D5, 30, brightness=0.2)
-
+# Using a DotStar Digital LED Strip with 30 LEDs connected to SPI
+# dots = dotstar.DotStar(spi=SPI(sck=Pin(x), mosi=Pin(y)), 30, brightness=0.2)
 
 # HELPERS
 # a random color 0 -> 224

@@ -1,21 +1,17 @@
 
-Adafruit CircuitPython DotStar
-==============================
+MicroPython DotStar
+===================
 
-.. image:: https://readthedocs.org/projects/adafruit-circuitpython-dotstar/badge/?version=latest
-    :target: https://circuitpython.readthedocs.io/projects/dotstar/en/latest/
-    :alt: Documentation Status
+Higher level DotStar driver that presents the strip as a sequence. This is a port of the
+`Adafruit CircuitPython DotStar library <https://github.com/adafruit/Adafruit_CircuitPython_DotStar>`_.
+The primary change is to require an SPI object to be configured before creating the DotStar object. SPI
+communciations are used to control the DotStars. 
 
-.. image :: https://img.shields.io/discord/327254708534116352.svg
-    :target: https://adafru.it/discord
-    :alt: Discord
-
-.. image:: https://travis-ci.com/adafruit/Adafruit_CircuitPython_DotStar.svg?branch=master
-    :target: https://travis-ci.com/adafruit/Adafruit_CircuitPython_DotStar
-    :alt: Build Status
-
-Higher level DotStar driver that presents the strip as a sequence. It is the
-same api as the `NeoPixel library <https://github.com/adafruit/Adafruit_CircuitPython_NeoPixel>`_.
+.. note:: Be aware that SPI can be implemented using hardware support or
+  purely in software. Hardware implementations allow higher rates of 
+  transmission and can be desirable particularly for long strips of DotStars.
+  SPI implementation is port-dependent so see your port-specific documentation
+  for details. 
 
 Colors are stored as tuples by default. However, you can also use int hex syntax
 to set values similar to colors on the web. For example, ``0x100000`` (``#100000``
@@ -28,81 +24,28 @@ It should be a float. For example, (0xFF,0,0, 1.0) is the brightest red possible
   present by setting the RGB channels to identical values. For example, full
   white is 0xffffff but is actually (0xff, 0xff, 0xff) in the tuple syntax. 
 
-Dependencies
-=============
-This driver depends on:
-
-* `Adafruit CircuitPython <https://github.com/adafruit/circuitpython>`_
-
-Please ensure all dependencies are available on the CircuitPython filesystem.
-This is easily achieved by downloading
-`the Adafruit library and driver bundle <https://github.com/adafruit/Adafruit_CircuitPython_Bundle>`_.
+.. note:: DotStar refers to an Adafruit product based on an electronic part
+  known as APA102. 'Dotstar' and 'APA102' can be used interchangeably.
 
 Usage Example
 =============
 
-This example demonstrates the library with the single built-in DotStar on the
-`Trinket M0 <https://www.adafruit.com/product/3500>`_ and
-`Gemma M0 <https://www.adafruit.com/product/3501>`_.
+This example demonstrates the library with a single DotStar connected to Pins 12 and 13. This 
+matches the configuration of the `TinyPICO <http://tinpico.com>`_. On this platform (ESP32-based)
+this is using software SPI.
 
 .. code-block:: python
 
-    import board
-    import adafruit_dotstar
+    from micropython_dotstar import DotStar
+    from machine import SPI, Pin
 
-    pixels = adafruit_dotstar.DotStar(board.APA102_SCK, board.APA102_MOSI, 1)
-    pixels[0] = (10, 0, 0)
+    spi = SPI(sck=Pin(12), mosi=Pin(13), miso=Pin(18)) # Configure SPI - see note below
+    dotstar = DotStar(spi, 1) # Just one DotStar
+    dotstar[0] = (128, 0, 0) # Red
+    dotstar[0] = (128, 0, 0, 0.5) # Red, half brightness
+    dotstar.fill((0,0,128)) # Blue
 
-Contributing
-============
-
-Contributions are welcome! Please read our `Code of Conduct
-<https://github.com/adafruit/Adafruit_CircuitPython_NeoPixel/blob/master/CODE_OF_CONDUCT.md>`_
-before contributing to help this project stay welcoming.
-
-Building locally
-================
-
-To build this library locally you'll need to install the
-`circuitpython-build-tools <https://github.com/adafruit/circuitpython-build-tools>`_ package.
-
-.. code-block:: shell
-
-    python3 -m venv .env
-    source .env/bin/activate
-    pip install circuitpython-build-tools
-
-Once installed, make sure you are in the virtual environment:
-
-.. code-block:: shell
-
-    source .env/bin/activate
-
-Then run the build:
-
-.. code-block:: shell
-
-    circuitpython-build-bundles --filename_prefix adafruit-circuitpython-dotstar --library_location .
-
-Sphinx documentation
------------------------
-
-Sphinx is used to build the documentation based on rST files and comments in the code. First,
-install dependencies (feel free to reuse the virtual environment from above):
-
-.. code-block:: shell
-
-    python3 -m venv .env
-    source .env/bin/activate
-    pip install Sphinx sphinx-rtd-theme
-
-Now, once you have the virtual environment activated:
-
-.. code-block:: shell
-
-    cd docs
-    sphinx-build -E -W -b html . _build/html
-
-This will output the documentation to ``docs/_build/html``. Open the index.html in your browser to
-view them. It will also (due to -W) error out on any warning like Travis will. This is a good way to
-locally verify it will pass.
+.. note:: 'miso=Pin(18)' is only required due to a quirk in the current software SPI
+  implementation where all of sck, mosi and miso must be set. It's expected that this
+  limitation will be lifted in the future. In this example Pin(18) is simply unused since
+  DotStars don't send data back to the master.
