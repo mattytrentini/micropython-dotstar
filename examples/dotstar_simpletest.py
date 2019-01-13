@@ -1,9 +1,11 @@
 import time
 import random
 import micropython_dotstar as dotstar
+from machine import Pin, SPI
 
 # On-board DotStar for the TinyPICO
-dots = dotstar.DotStar(spi=SPI(sck=Pin(12), mosi=Pin(13), miso=Pin(18)), 1, brightness=0.2)
+spi = SPI(sck=Pin(12), mosi=Pin(13), miso=Pin(18)) # Configure SPI - note: miso is unused
+dots = dotstar.DotStar(spi, 1, brightness=0.2)
 
 # Using a DotStar Digital LED Strip with 30 LEDs connected to SPI
 # dots = dotstar.DotStar(spi=SPI(sck=Pin(x), mosi=Pin(y)), 30, brightness=0.2)

@@ -59,19 +59,16 @@ class DotStar:
          or green on the strip, modify this! It should be one of the values above
 
 
-    Example for Gemma M0:
+    Example for TinyPICO:
 
     .. code-block:: python
 
-        import adafruit_dotstar
-        import time
-        from board import *
+        from micropython_dotstar import DotStar
+        from machine import Pin, SPI
 
-        RED = 0x100000
-
-        with adafruit_dotstar.DotStar(APA102_SCK, APA102_MOSI, 1) as pixels:
-            pixels[0] = RED
-            time.sleep(2)
+        spi = SPI(sck=Pin(12), mosi=Pin(13), miso=Pin(18)) # Configure SPI - note: miso is unused
+        dotstar = DotStar(spi, 1)
+        dotstar[0] = (128, 0, 0) # Red
     """
 
     def __init__(self, spi, n, *, brightness=1.0, auto_write=True,
