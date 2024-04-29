@@ -49,3 +49,23 @@ this is using software SPI.
   implementation where all of sck, mosi and miso must be set. It's expected that this
   limitation will be lifted in the future. In this example Pin(18) is simply unused since
   DotStars don't send data back to the master.
+
+Raspberry Pi Pico Example
+=========================
+
+This example demonstrates the library with a single DotStar connected to SCK Pin 10 and Tx Pin 11 on the
+`Raspberry Pi Pico <https://www.raspberrypi.com/documentation/microcontrollers/raspberry-pi-pico>`_.
+
+
+.. code-block:: python
+
+    from micropython_dotstar import DotStar
+    from machine import SPI
+
+    spi = SPI(id=1, sck=10, mosi=11) # Configure SPI
+    dotstar = DotStar(spi, 1)        # Setup one DotStar
+
+    dotstar[0] = (128, 0, 0)         # Red
+    dotstar[0] = (128, 0, 0, 0.5)    # Red, half brightness
+    dotstar.fill((0,0,128))          # Blue
+
