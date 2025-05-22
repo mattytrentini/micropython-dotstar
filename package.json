@@ -1,0 +1,7 @@
+{
+  "urls": [
+    ["dotstar.py", "github:mattytrentini/micropython-dotstar/micropython_dotstar.py"]
+  ],
+  "version": "1.0.0",
+  "deps": []
+}
