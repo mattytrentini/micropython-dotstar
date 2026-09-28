@@ -17,6 +17,9 @@ Colors are stored as tuples by default. However, you can also use int hex syntax
 to set values similar to colors on the web. For example, ``0x100000`` (``#100000``
 on the web) is equivalent to ``(0x10, 0, 0)``.
 
+``write()`` is an alias of ``show()``, matching MicroPython's ``neopixel``
+interface and allowing code to use either driver interchangeably.
+
 If you send a tuple with 4 values, you can control the brightness value, which appears in DotStar but not NeoPixels.
 It should be a float. For example, (0xFF,0,0, 1.0) is the brightest red possible, (1,0,0,0.01) is the dimmest red possible.
 
@@ -68,4 +71,3 @@ This example demonstrates the library with a single DotStar connected to SCK Pin
     dotstar[0] = (128, 0, 0)         # Red
     dotstar[0] = (128, 0, 0, 0.5)    # Red, half brightness
     dotstar.fill((0,0,128))          # Blue
-
