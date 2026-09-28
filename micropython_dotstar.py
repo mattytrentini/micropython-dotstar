@@ -234,3 +234,5 @@ class DotStar:
 
         if self._spi:
             self._spi.write(buf)
+
+    write = show
